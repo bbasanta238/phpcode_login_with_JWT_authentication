@@ -29,17 +29,21 @@ function auth($row){
     );
     $jwt=JWT::encode($payload,$secret_key,'HS256');
     setcookie('webphp',$jwt);
-    echo $jwt;
+    // echo $jwt;
 }
 
 function isloggedin(){
     $secret_key = "php071jwt";
-    // $jwt= [$_COOKIE['php']][0];
-    // echo $jwt;
-    if(isset($_COOKIE['php'])){
+    // $jwt= [$_COOKIE['webphp']];
+    // print_r($jwt);
+    if(isset($_COOKIE['webphp'])){
         try{
-            $decode = JWT::decode([$_COOKIE['php']][0],new key($secret_key ,'HS256'));
-            echo $decode;
+            $decode = JWT::decode([$_COOKIE['webphp']][0],new key($secret_key ,'HS256'));
+           
+            // echo $decode->{'id'};
+            print_r(($decode->data));
+            return $decode->data;
+            // echo array($decode)[0];
             // return true;
         }catch(Exception $ex){
             echo $ex;
@@ -47,7 +51,7 @@ function isloggedin(){
         }
     }else{
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-      header(`Location: $url`);
+        header(`Location: $url`);
     }
 }
 

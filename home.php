@@ -1,11 +1,11 @@
 <?php
     include './auth.php';
-
-    if(isloggedin()){
-        echo "entered";
-        header("Location:./authorized.php");
+    $check = isloggedin();
+    if($check->id != NULL){
+        // echo "entered";
+        header("Location:./authorized.php?id=".$check->id);
     }else{
-        // echo isloggedin();
+
         header("Location:./1.php");
     }
 ?>
